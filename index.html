@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>InnovateFund | ระดมทุนตามระยะงาน</title>
+<link rel="stylesheet" href="./styles.css">
+<script defer src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+<script type="module" src="./app.js"></script>
+</head>
+<body>
+<header class="top"><div class="wrap bar">
+  <a class="brand" href="./"><span class="logo" aria-hidden="true">↗</span> InnovateFund</a>
+  <div class="wallet"><span class="network"><i></i> Sepolia</span><button type="button" id="wallet">เชื่อมต่อ MetaMask</button></div>
+</div></header>
+<main class="wrap">
+  <section class="hero">
+    <div><p class="overline">CROWDFUNDING ON ETHEREUM</p><h1>ระดมทุนตามระยะงาน</h1><p class="lede">ติดตามความคืบหน้า ตรวจสอบหลักฐาน และร่วมอนุมัติการจ่ายเงินในแต่ละ Milestone</p></div>
+    <div class="stages" aria-hidden="true"><span>ระดมทุน</span><b>→</b><span>ตรวจหลักฐาน</span><b>→</b><span>จ่ายตามระยะงาน</span></div>
+  </section>
+  <div id="notice" role="status" hidden></div>
+  <section class="surface">
+    <div class="section-head"><div><h2>โครงการระดมทุน</h2><p id="list-status" aria-live="polite"></p></div><div class="wallet"><button type="button" id="refresh">รีเฟรช</button><button type="button" class="primary" id="open-create">+ สร้างโครงการ</button></div></div>
+    <div class="cards" id="campaigns"></div>
+    <div class="pagination" id="campaign-pages" hidden><button type="button" id="campaign-prev">ใหม่กว่า</button><button type="button" id="campaign-next">เก่ากว่า</button></div>
+  </section>
+  <section class="surface" id="detail" hidden aria-live="polite"></section>
+</main>
+<footer class="wrap"><div><strong>InnovateFund</strong> · แบบฝึกหัด Blockchain ข้อ 5</div><a id="explorer" target="_blank" rel="noopener" hidden>ดู Smart Contract ↗</a></footer>
+<dialog id="create-dialog" aria-labelledby="create-title">
+  <form id="create-form">
+    <div class="section-head"><h2 id="create-title">สร้างโครงการ</h2><button type="button" id="close-create" aria-label="ปิด">×</button></div>
+    <label>ชื่อโครงการ<input name="title" maxlength="50" required placeholder="เช่น ระบบตรวจวัดคุณภาพอากาศ"></label>
+    <label>รายละเอียด<textarea name="description" rows="3" maxlength="500" required></textarea></label>
+    <div class="durations">
+      <label>ระดมทุน (นาที)<input name="funding" type="number" min="1" max="525600" value="1440" required></label>
+      <label>ส่งหลักฐานต่อระยะ (นาที)<input name="request" type="number" min="1" max="525600" value="1440" required></label>
+      <label>โหวตต่อระยะ (นาที)<input name="voting" type="number" min="1" max="525600" value="60" required></label>
+    </div>
+    <div class="section-head"><h3>Milestones</h3><button type="button" id="add-milestone">+ เพิ่มระยะงาน</button></div>
+    <div id="allocations"></div>
+    <p class="total">เป้าหมายเงินทุน <strong id="goal">0 ETH</strong></p>
+    <p class="muted">เป้าหมายคำนวณจากผลรวมเงินที่จัดสรรให้แต่ละระยะ</p>
+    <p id="form-status" role="status"></p>
+    <button class="primary" type="submit" id="save-campaign">สร้างโครงการบน Sepolia</button>
+  </form>
+</dialog>
+</body>
+</html>
