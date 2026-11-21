@@ -1,4 +1,4 @@
-import { config } from "./config.js";
+import { config } from "./config.js?v=sepolia-1";
 
 const $ = (id) => document.getElementById(id);
 const ethers = window.ethers;
