@@ -144,7 +144,9 @@ contract InnovateFund {
         milestone.paid = true;
         campaign.paid += milestone.allocation;
         campaign.nextMilestone = index + 1;
-        campaign.requestDeadline = uint64(block.timestamp + campaign.requestWindow);
+        if (campaign.nextMilestone < milestones[id].length) {
+            campaign.requestDeadline = uint64(block.timestamp + campaign.requestWindow);
+        }
         addEntry(id, Movement.Payout, campaign.owner, milestone.allocation, index);
         pay(campaign.owner, milestone.allocation);
     }
