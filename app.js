@@ -334,7 +334,10 @@ function campaignActions(id, info, milestone, status, user) {
         submitTransaction((contract) => contract.approveMilestone(id)), "primary"));
     }
     if (approved) {
-      controls.append(button("จ่ายตาม Milestone", () => submitTransaction((contract) => contract.releaseFunds(id)), "primary"));
+      controls.append(button("จ่ายตาม Milestone", () => submitTransaction(async (contract) => {
+        const estimate = await contract.releaseFunds.estimateGas(id);
+        return contract.releaseFunds(id, {gasLimit: estimate * 120n / 100n});
+      }), "primary"));
     } else if ((milestone.voteDeadline || info.requestDeadline) <= now) {
       controls.append(button("ปิด Milestone ที่หมดเวลา", () => submitTransaction((contract) => contract.closeFailedMilestone(id))));
     }
